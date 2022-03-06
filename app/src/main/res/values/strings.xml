@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ZeroWasteKhana</string>
+    <string name="name_error">error</string>
+    <string name="email_error">email error</string>
+    <string name="error_invalid_email">invalid email</string>
+    <string name="phone_error">phone error</string>
+</resources>

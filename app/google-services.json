@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "142336376001",
+    "project_id": "wastekhanadonation",
+    "storage_bucket": "wastekhanadonation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142336376001:android:bdcd25935f80bd9c2d2840",
+        "android_client_info": {
+          "package_name": "com.bnp.wastekhanadonation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142336376001-n2gffasngcp9aeo88np86lobu01fa6uu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4ndwsOg48CG254bP2sK1E4CeuDKpc45Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142336376001-n2gffasngcp9aeo88np86lobu01fa6uu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
