@@ -60,7 +60,13 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder>
         model m = datalist.get(position);
         holder.tname.setText(datalist.get(position).getName());
         holder.ttype.setText(datalist.get(position).getType());
-        holder.tfoodname.setText(datalist.get(position).getFood_item());
+        if(datalist.get(position).getFood_item()==null){
+            holder.tfoodname.setVisibility(View.GONE);
+            holder.foodlable.setVisibility(View.GONE);
+        }else{
+            holder.tfoodname.setText(datalist.get(position).getFood_item());
+            holder.foodlable.setVisibility(View.VISIBLE);
+        }
         RequestOptions myOptions = new RequestOptions()
                 .fitCenter() // or centerCrop
                 .override(200, 200);
@@ -97,7 +103,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder>
 
     class myviewholder extends RecyclerView.ViewHolder
     {
-        TextView tname,ttype,tdescription,tfoodname;
+        TextView tname,ttype,tdescription,tfoodname,foodlable;
         ImageView tfoodpic;
         CardView del;
         public myviewholder(@NonNull View itemView) {
@@ -108,6 +114,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder>
             tfoodname = itemView.findViewById(R.id.foodname);
             tfoodpic = itemView.findViewById(R.id.foodpic);
             tdescription = itemView.findViewById(R.id.description);
+            foodlable = itemView.findViewById(R.id.foodlable);
         }
     }
 }

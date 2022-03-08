@@ -49,7 +49,7 @@ public class Receive extends AppCompatActivity implements OnMapReadyCallback, Go
     LocationRequest mLocationRequest;
     private int REQUEST_CODE = 11;
     SupportMapFragment mapFragment;
-    EditText mFullName,mDescription;
+    EditText mFullName,mDescription,mphone;
     Button mSubmitBtn;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -63,6 +63,7 @@ public class Receive extends AppCompatActivity implements OnMapReadyCallback, Go
         mFullName = findViewById(R.id.receivername);
         mDescription = findViewById(R.id.description);
         mSubmitBtn=findViewById(R.id.submit);
+        mphone = findViewById(R.id.mphone);
 
         if(Build.VERSION.SDK_INT<16){
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -124,6 +125,7 @@ public class Receive extends AppCompatActivity implements OnMapReadyCallback, Go
                 String fullname = mFullName.getText().toString().trim();
                 String description= mDescription.getText().toString().trim();
                 String type= "Receiver";
+                String phone = mphone.getText().toString().trim();
 
                 if(TextUtils.isEmpty(fullname))
                 {
@@ -149,6 +151,7 @@ public class Receive extends AppCompatActivity implements OnMapReadyCallback, Go
                 user.put("location",geoPoint);
                 user.put("userid",userID);
                 user.put("type",type);
+                user.put("phone",phone);
 
                 collectionReference.add(user)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

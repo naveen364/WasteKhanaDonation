@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +51,9 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -111,7 +116,7 @@ public class FoodMap extends AppCompatActivity implements OnMapReadyCallback, Go
         showLocation();
         LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
 
-        MarkerOptions markerOptions1 = new MarkerOptions().position(latLng).title("You are here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        MarkerOptions markerOptions1 = new MarkerOptions().position(latLng).title("You are here").snippet("").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         //mMap.addMarker(markerOptions1).showInfoWindow();
@@ -135,16 +140,19 @@ public class FoodMap extends AppCompatActivity implements OnMapReadyCallback, Go
                                     String title = (String) document.get("name");
                                     String type = (String) document.get("type");
                                     String description = (String) document.get("description");
-                                    String url = (String) document.get("food_image");
+                                    String u = (String) document.get("food_image");
+                                    String phone = (String) document.get("phone");
+
 
                                     if(type.equals("Donor")) {
                                         Log.d(TAG, String.valueOf(location) + " Success " + title);
                                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                         Timestamp timestamp = (Timestamp) document.get("timestamp");
                                         Date date = timestamp.toDate();
-
+                                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                                        String timy = sdf.format(date);
                                         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                        mMap.addMarker(new MarkerOptions().position(latLng).title(description).snippet(title+" "+phone+" "+u+" "+type).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                                         //Marker mark = mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                                     }
@@ -153,18 +161,31 @@ public class FoodMap extends AppCompatActivity implements OnMapReadyCallback, Go
                                         Log.d(TAG, String.valueOf(location) + " Success " + title);
                                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                        mMap.addMarker(new MarkerOptions().position(latLng).title(description).snippet(title+" "+phone+" "+null+" "+type).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                                     }
                                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                         @Override
                                         public boolean onMarkerClick(@NonNull Marker marker) {
-                                            AlertDialog.Builder dialog = new AlertDialog.Builder(FoodMap.this);
-                                            dialog.setTitle(marker.getTitle());
-                                            dialog.setMessage("name : "+marker.getTitle()+"\nDescription : "+marker.getSnippet());
-                                            dialog.setIcon(R.drawable.spla);
-                                            dialog.setCancelable(true);
-                                            dialog.setPositiveButton("close",null);
-                                            dialog.show();
+                                            String raw = marker.getSnippet();
+                                            if(raw.isEmpty()){
+                                                Toast.makeText(FoodMap.this,"you are here",Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                String[] s = raw.split("\\s+");
+                                                Intent intent = new Intent(getApplicationContext(), location_info.class);
+                                                intent.putExtra("desc", marker.getTitle());
+                                                intent.putExtra("name", s[0]);
+                                                intent.putExtra("phone", s[1]);
+                                                intent.putExtra("url", s[2]);
+                                                intent.putExtra("type", s[3]);
+                                                startActivity(intent);
+//                                            AlertDialog.Builder dialog = new AlertDialog.Builder(FoodMap.this);
+//                                            dialog.setTitle(marker.getTitle());
+//                                            dialog.setMessage("name : "+marker.getTitle()+"\nDescription : "+marker.getSnippet());
+//                                            dialog.setIcon(R.drawable.spla);
+//                                            dialog.setCancelable(true);
+//                                            dialog.setPositiveButton("close",null);
+//                                            dialog.show();
+                                            }
                                             return false;
                                         }
                                     });

@@ -99,6 +99,31 @@
                         tools:ignore="UnusedAttribute" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mphoneError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:hintTextColor="@color/black"
+                    android:textSize="20sp"
+                    app:boxStrokeColor="@color/black">
+
+                    <EditText
+                        android:id="@+id/mphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="enter phone"
+                        android:textSize="20sp"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:backgroundTint="@android:color/transparent"
+                        android:importantForAutofill="no"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <fragment
                     android:id="@+id/google_map"
