@@ -39,13 +39,6 @@ public class History extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         fAuth= FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
-        if(Build.VERSION.SDK_INT<16){
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }else{
-            View decor =getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decor.setSystemUiVisibility(uiOptions);
-        }
         loadNotes();
 
     }

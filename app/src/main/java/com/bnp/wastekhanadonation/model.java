@@ -1,6 +1,6 @@
 package com.bnp.wastekhanadonation;
 
-public class model extends mID {
+public class model{
     String name,type,description,userid,food_item,food_image;
 
     public model() {
