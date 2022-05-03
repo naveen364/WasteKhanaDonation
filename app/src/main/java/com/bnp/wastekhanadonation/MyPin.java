@@ -1,7 +1,11 @@
 package com.bnp.wastekhanadonation;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -125,13 +131,13 @@ public class MyPin extends AppCompatActivity implements OnMapReadyCallback, Goog
                                         Log.d(TAG, userID + " Success " + title);
                                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(bitmapDescriptorfromVector(getApplicationContext(), R.drawable.ic_donor)));
                                     }
                                     else if(type.equals("Receiver") & Userid.equals(userID)){
                                         Log.d(TAG, String.valueOf(location) + " Success " + title);
                                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                         //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                        mMap.addMarker(new MarkerOptions().position(latLng).title(title+"("+type+")").snippet(description).icon(bitmapDescriptorfromVector(getApplicationContext(), R.drawable.ic_rcv)));
                                     }
                                 }
                             }
@@ -141,6 +147,15 @@ public class MyPin extends AppCompatActivity implements OnMapReadyCallback, Goog
                     }
                 });
 
+    }
+
+    private BitmapDescriptor bitmapDescriptorfromVector(Context c, int vectorId){
+        Drawable vd = ContextCompat.getDrawable(c,vectorId);
+        vd.setBounds(0,0,vd.getIntrinsicWidth(),vd.getIntrinsicHeight());
+        Bitmap btmap = Bitmap.createBitmap(vd.getIntrinsicWidth(),vd.getIntrinsicHeight(),Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(btmap);
+        vd.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(btmap);
     }
 
     @Override
